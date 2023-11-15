@@ -3,7 +3,7 @@ namespace App\Models;
 
 use App\Services\Database;
 
-class Picture
+class PictureManager
 {
     private $db;
 
