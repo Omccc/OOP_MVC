@@ -3,9 +3,8 @@
 namespace App\Controllers; // namespace toujours avec des anti slashs
 
 use App\Controllers\Controller;
-use App\Models\PictureManager;
 
-class GalleryController extends Controller{
+class DetailController extends Controller{
 
     public function index(){
 
@@ -13,8 +12,7 @@ class GalleryController extends Controller{
         $data = $pic->getAll(3);
         // $data = ['pierre', 'feuille', 'ciseaux']; //on crée un tableau de données
         // return $data; //on renvoie le tableau de données
-        $this->render('./views/template_home.phtml',[$data]);
-                                                
+        $this->render('./views/template_gallery.phtml',["pictures"=>$data]);
 
 
     }

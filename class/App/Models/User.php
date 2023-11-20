@@ -56,4 +56,49 @@ class User extends AbstractTable{
         return $this->roles;
     }
 
+    public function toArray(){
+    $userArray =[
+    $this->name,
+    $this->mail,
+    password_hash($this->password, PASSWORD_DEFAULT)
+    ];
+    return $userArray;    
+}
+
+
+
+
+    public function validate() : array
+    {
+        $errors = [];
+        /**
+         * Pléthore de vérifications dans tous les sens
+         */
+
+         //si le nom est pas inférieur à 3 caractères => error
+        if(strlen($this->name) < 3 ) 
+        {
+            $errors[] = "Le champs nom est obligatoire, merci!";
+        }
+
+         //Si l'email n'est pas bien formé
+        if(!filter_var($this->mail, FILTER_VALIDATE_EMAIL)) 
+        {
+        $errors[] = "Veuillez renseigner une adresse email valide svp!";
+        }
+
+          //Si l'email n'est pas bien formé
+          if(strlen($this->password) < 4 ) 
+          {
+          $errors[] = "Le mot-de-passe doit être moins de 3 caractères, merci!";
+          }
+
+
+
+    return $errors;
+
+
+}
+
+
 }

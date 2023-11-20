@@ -4,3 +4,4 @@ spl_autoload_register(function ($className) { //on charge nos class avec le nom 
     $className = str_replace("\\","/", $className); 
     require './class/' . $className.'.php'; 
 });
+

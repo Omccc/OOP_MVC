@@ -35,3 +35,5 @@ abstract class AbstractTable  // on ne peut pas l'instancier, mais on va baser n
   
     
 }
+
+}

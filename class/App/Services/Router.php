@@ -1,27 +1,64 @@
 <?php
 
-namespace App\Services; //notre espace de nom correspond à App se trouvant dans App\Services
+namespace App\Services;
 
 /**
  * A very simple class router
  * based on $_GET['page']
  */
-class Router{
+class Router
+{
+
     private $page;
+    private $action;
 
-    public function __construct(){ //on crée une méthode constructeur pour déterminer la page
+    public function __construct()
+    {
         $this->setPage();
-}
-
-
-    public function setPage(){ //On crée la méthode setPage() pour charger la page correspondante
-        $this->page = isset($_GET['page']) ? strtolower ($_GET['page']) : 'home' ; //on met une condition si la route n'est pas renseignée on renvoie la page home
+        $this->setAction();
     }
 
+    public function setPage()
+    {
+        $this->page = isset($_GET['page']) ? strtolower($_GET['page']) : 'home';
+    }
 
-    public function getPage(){ //on crée une méthode pour récupérer la route
-        return $this->page; //on renvoie la route
+    public function getAction()
+    {
+        return $this->action;
+    }
 
-}
+    public function setAction()
+    {
+        $this->action = isset($_GET['action']) ? strtolower($_GET['action']) : 'index';
+    }
 
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    public function run()
+    {
+        $action = 'index';
+        $controllerName = 'App\Controllers\\NotFoundController';
+
+        // On charge le controller correspondant
+        // En déterminant le nom du controller ex:HomeController
+        // Si le fichier existe
+        if (file_exists("./class/App/Controllers/" . ucfirst($this->getPage()) . 'Controller.php')) {
+            $controllerName = 'App\Controllers\\' . ucfirst($this->getPage()) . 'Controller';
+        }
+        // On définit la méthode correspondante
+        // Si elle existe
+        if (method_exists($controllerName,$this->getAction())) {
+            $action = $this->getAction();
+        }
+            // On peut déterminer ensuite le fichier à charger
+            // On instancie la class ex: new HomeController()
+            $controller = new $controllerName();
+            // On peut exécuter la méthode "index()" par défaut
+            // Ou une autre méthode au besoin
+            $controller->$action();
+    }
 }
